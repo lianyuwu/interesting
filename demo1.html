@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .c-banner {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 200px auto 0;
+    background: pink;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .c-banner-text {
+    width: 100%;
+    height: 400px;
+  }
+  .c-banner__active {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, .3);
+    text-align: center;
+    font-size: 42px;
+    line-height: 400px;
+  }
+  .c-banner--0 .c-banner__active{
+    bottom: 400px;
+  }
+  .c-banner--active:hover .c-banner__active {
+    bottom: 0;
+  }
+  .c-banner--1 .c-banner__active{
+    bottom: 0;
+    left: 400px;
+  }
+  .c-banner--active:hover .c-banner__active {
+    left: 0;
+    bottom: 0;
+  }
+  .c-banner--2 .c-banner__active{
+    bottom: -400px;
+    left: 0;
+  }
+  .c-banner--active:hover .c-banner__active {
+    left: 0;
+    bottom: 0;
+  }
+  .c-banner--3 .c-banner__active{
+    bottom: 0;
+    left: -400px;
+  }
+  .c-banner--active:hover .c-banner__active {
+    left: 0;
+    bottom: 0;
+  }
+  .c-banner--active .c-banner__active{ 
+    transition: all .3s linear .1s
+  }
+</style>
+<body>
+  <div class="c-banner">
+    <div class="c-banner-text"></div>
+    <div class="c-banner__active">
+      demo1
+    </div>
+  </div>
+  <div class="c-recordedLesson__load">
+    <div class="c-recordedLesson__load--loader"></div>
+  </div>
+  <script>
+    const banner = document.getElementsByClassName('c-banner')[0]
+    const w = banner.clientWidth;
+    const h = banner.clientHeight;
+    let tiemr = null
+    banner.addEventListener('mouseenter', (e) => {
+      if (tiemr) {
+        banner.classList = 'c-banner'
+        clearTimeout(tiemr)
+      }
+      const x = (e.pageX - banner.offsetLeft - (w / 2)) * (w > h ? (h / w) : 1);
+      const y = (e.pageY - banner.offsetTop - (h / 2)) * (h > w ? (w / h) : 1);
+      const direction = Math.round((((Math.atan2(y, x) * (180 / Math.PI)) + 180) / 90) + 3) % 4; //direction的值为“0,1,2,3”分别对应着“上，右，下，左”
+      if (direction === 0) {
+        banner.classList.add('c-banner--0');
+      }
+      if (direction === 1) {
+        banner.classList.add('c-banner--1');
+      }
+      if (direction === 2) {
+        banner.classList.add('c-banner--2');
+      }
+      if (direction === 3) {
+        banner.classList.add('c-banner--3');
+      }
+      setTimeout(() => {
+        banner.classList.add('c-banner--active');
+      }, 100);
+    })
+    banner.addEventListener('mouseleave', () => {
+      tiemr = setTimeout(() => {
+        banner.classList = 'c-banner'
+      }, 500);
+    })
+  </script>
+</body>
+</html>
